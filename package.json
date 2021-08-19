@@ -1,0 +1,24 @@
+{
+    "name": "@duycode/create-project",
+    "version": "2.0.0",
+    "description": "",
+    "main": "index.js",
+    "bin": {
+        "@duycode/create-project": "bin/create-project",
+        "create-project": "bin/create-project"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "duycode"
+    ],
+    "author": "duycode",
+    "license": "ISC",
+    "dependencies": {
+        "enquirer": "^2.3.6"
+    }
+}
