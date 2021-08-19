@@ -1,6 +1,5 @@
+const { execSync } = require('child_process')
 const { Select } = require('enquirer');
-
-const { execSync, exec } = require('child_process')
 
 const prompt = async () => {
     try {
@@ -33,15 +32,17 @@ const cli = async () => {
         const startCommand = `cd ${repository} && npm start`
         const openWebCommand = `start ${url_localhost}`
 
-        console.log('-- Please wait ! Git is getting reading to clone--')
-        execSync(gitCloneCommand)
-        console.log('-- Complete: Git just Clone !!!--')
-        console.log('-- Please wait ! Dependencies Package is preparing to install --')
-        execSync(installCommand)
-        console.log('-- Congratulation: Dependencies Package has been installed !!! --')
-        exec(startCommand)
-        console.log(`Welcome ! Server listening at: ${url_localhost}`)
-        execSync(openWebCommand)
+        console.log('\x1b[33m' + '...Please wait ! Git is getting reading to clone.' + '\x1b[0m');
+        execSync(gitCloneCommand, { stdio: 'inherit' })
+        console.log('\x1b[32m' +  '...Complete: Git just clone !!! \n'  + '\x1b[0m');
+
+        console.log('\x1b[33m' + '...Please wait ! Dependencies Package is preparing to install.' + '\x1b[0m')
+        execSync(installCommand, { stdio: 'inherit' })
+        console.log('\x1b[32m' +  '...Congratulation: Dependencies Package has been installed !!!' + '\x1b[0m')
+
+        execSync(openWebCommand, { stdio: 'inherit' })
+        console.log('\x1b[32m' +  `...Welcome ! Server listening at: ${url_localhost}` + '\x1b[0m')
+        execSync(startCommand, { stdio: 'inherit'})
     } catch (error) {
         process.exit(-1)
     }
