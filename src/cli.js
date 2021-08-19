@@ -25,21 +25,22 @@ const prompt = async () => {
 const cli = async () => {
     try {
         const repository = process.argv[2] || './'
-        const url = await prompt()
+        const url_git = await prompt()
+        const url_localhost = 'http://localhost:8888'
 
-        const gitCloneCommand = `git clone ${url} ${repository}`
+        const gitCloneCommand = `git clone ${url_git} ${repository}`
         const installCommand = `cd ${repository} && npm install`
         const startCommand = `cd ${repository} && npm start`
-        const openWebCommand = `start http://localhost:8888`
+        const openWebCommand = `start ${url_localhost}`
 
-        console.log('-- Start: Git Clone--')
+        console.log('-- Please wait ! Git is getting reading to clone--')
         execSync(gitCloneCommand)
-        console.log('-- Complete: Git Clone--')
-        console.log('-- Start: Install Dependencies Package--')
+        console.log('-- Complete: Git just Clone !!!--')
+        console.log('-- Please wait ! Dependencies Package is preparing to install --')
         execSync(installCommand)
-        console.log('-- Complete: Install Dependencies Package--')
+        console.log('-- Congratulation: Dependencies Package has been installed !!! --')
         exec(startCommand)
-        console.log('Congratulation ! Server listening at: http://localhost:8889')
+        console.log(`Welcome ! Server listening at: ${url_localhost}`)
         execSync(openWebCommand)
     } catch (error) {
         process.exit(-1)
