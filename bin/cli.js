@@ -6,11 +6,12 @@ const prompt = async () => {
         const prompt = new Select({
             name: 'color',
             message: 'Please choose which Project template to use ?',
-            choices: ['MERN-Stack', 'Fake API']
+            choices: ['Create ReactJS', 'MERN-Stack', 'Fake API']
         });
         const template = await prompt.run()
 
         switch (template) {
+            case 'Create ReactJS': return 'https://github.com/duycode-com/create-reactjs.git'
             case 'MERN-Stack': return 'https://github.com/duycode-com/mern-stack.git'
             case 'Fake API': return 'https://github.com/duycode-com/fake-api.git'
             default: return '';
