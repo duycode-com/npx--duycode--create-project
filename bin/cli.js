@@ -1,21 +1,20 @@
 const { execSync } = require('child_process')
 const { Select } = require('enquirer');
 
-const prompt = async () => {
+const projects = {
+    'Create ReactJS': 'https://github.com/duycode-com/create-reactjs.git',
+    'MERN-Stack': 'https://github.com/duycode-com/mern-stack.git',
+    'Fake API': 'https://github.com/duycode-com/fake-api.git',
+}
+
+const promptGit = async () => {
     try {
         const prompt = new Select({
             name: 'color',
             message: 'Please choose which Project template to use ?',
-            choices: ['Create ReactJS', 'MERN-Stack', 'Fake API']
+            choices: Object.keys(projects)
         });
-        const template = await prompt.run()
-
-        switch (template) {
-            case 'Create ReactJS': return 'https://github.com/duycode-com/create-reactjs.git'
-            case 'MERN-Stack': return 'https://github.com/duycode-com/mern-stack.git'
-            case 'Fake API': return 'https://github.com/duycode-com/fake-api.git'
-            default: return '';
-        }
+        return await prompt.run()
     } catch (error) {
         process.exit(-1)
     }
@@ -24,13 +23,10 @@ const prompt = async () => {
 const cli = async () => {
     try {
         const repository = process.argv[2] || './'
-        const url_git = await prompt()
-        const url_localhost = 'http://localhost:8888'
+        const title = await promptGit()
 
-        const gitCloneCommand = `git clone ${url_git} ${repository}`
+        const gitCloneCommand = `git clone ${projects[title]} ${repository}`
         const installCommand = `cd ${repository} && npm install`
-        const startCommand = `cd ${repository} && npm start`
-        const openWebCommand = `start ${url_localhost}`
 
         console.log('\x1b[33m' + '...Please wait ! Git is getting reading to clone.' + '\x1b[0m');
         execSync(gitCloneCommand, { stdio: 'inherit' })
@@ -40,9 +36,14 @@ const cli = async () => {
         execSync(installCommand, { stdio: 'inherit' })
         console.log('\x1b[32m' + '...Congratulation: Dependencies Package has been installed !!!' + '\x1b[0m')
 
-        execSync(openWebCommand, { stdio: 'inherit' })
-        console.log('\x1b[32m' + `...Welcome ! Server listening at: ${url_localhost}` + '\x1b[0m')
-        execSync(startCommand, { stdio: 'inherit' })
+        if (title == "MERN-Stack" || title == "Fake API") {
+            const url_localhost = 'http://localhost:8888'
+            const openWebCommand = `start ${url_localhost}`
+            const startCommand = `cd ${repository} && npm start`
+            execSync(openWebCommand, { stdio: 'inherit' })
+            console.log('\x1b[32m' + `...Welcome ! Server listening at: ${url_localhost}` + '\x1b[0m')
+            execSync(startCommand, { stdio: 'inherit' })
+        }
     } catch (error) {
         process.exit(-1)
     }
