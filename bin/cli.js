@@ -24,15 +24,15 @@ const cli = async () => {
     let repository = process.argv[2] || './'
     let title = await promptGit()
     let gitCloneCmd = `git clone ${projects[title]} ${repository}`
-    let installCmd;
+    let installCmd = `cd ${repository} && npm install`
     let a, b;
 
-    try {
-        execSync('npm list -g yarn')
-        installCmd = `cd ${repository} && yarn install`
-    } catch (error) {
-        installCmd = `cd ${repository} && npm install`
-    }
+    // try {
+    //     execSync('npm list -g yarn')
+    //     installCmd = `cd ${repository} && yarn install`
+    // } catch (error) {
+    //     installCmd = `cd ${repository} && npm install`
+    // }
 
     try {
         console.log('\x1b[33m...Please wait ! Git is getting reading to clone. \x1b[0m');
