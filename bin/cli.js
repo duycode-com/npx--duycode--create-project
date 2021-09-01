@@ -21,28 +21,34 @@ const promptGit = async () => {
 }
 
 const cli = async () => {
+    let repository = process.argv[2] || './'
+    let title = await promptGit()
+    let gitCloneCmd = `git clone ${projects[title]} ${repository}`
+    let installCmd;
+
     try {
-        const repository = process.argv[2] || './'
-        const title = await promptGit()
+        execSync('npm list -g yarnn')
+        installCmd = `cd ${repository} && yarn install`
+    } catch (error) {
+        installCmd = `cd ${repository} && npm install`
+    }
 
-        const gitCloneCommand = `git clone ${projects[title]} ${repository}`
-        const installCommand = `cd ${repository} && npm install`
-
+    try {
         console.log('\x1b[33m' + '...Please wait ! Git is getting reading to clone.' + '\x1b[0m');
-        execSync(gitCloneCommand, { stdio: 'inherit' })
+        execSync(gitCloneCmd, { stdio: 'inherit' })
         console.log('\x1b[32m' + '...Complete: Git just clone !!! \n' + '\x1b[0m');
 
         console.log('\x1b[33m' + '...Please wait ! Dependencies Package is preparing to install.' + '\x1b[0m')
-        execSync(installCommand, { stdio: 'inherit' })
+        execSync(installCmd, { stdio: 'inherit' })
         console.log('\x1b[32m' + '...Congratulation: Dependencies Package has been installed !!!' + '\x1b[0m')
 
         if (title == "MERN-Stack" || title == "Fake API") {
             const url_localhost = 'http://localhost:8888'
-            const openWebCommand = `start ${url_localhost}`
-            const startCommand = `cd ${repository} && npm start`
-            execSync(openWebCommand, { stdio: 'inherit' })
+            const openWebCmd = `start ${url_localhost}`
+            const startCmd = `cd ${repository} && npm start`
+            execSync(openWebCmd, { stdio: 'inherit' })
             console.log('\x1b[32m' + `...Welcome ! Server listening at: ${url_localhost}` + '\x1b[0m')
-            execSync(startCommand, { stdio: 'inherit' })
+            execSync(startCmd, { stdio: 'inherit' })
         }
     } catch (error) {
         process.exit(-1)
