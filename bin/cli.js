@@ -28,7 +28,7 @@ const cli = async () => {
     let a, b;
 
     try {
-        execSync('npm list -g yarnn')
+        execSync('npm list -g yarn')
         installCmd = `cd ${repository} && yarn install`
     } catch (error) {
         installCmd = `cd ${repository} && npm install`
@@ -39,13 +39,13 @@ const cli = async () => {
         a = new Date().getTime();
         execSync(gitCloneCmd, { stdio: 'inherit' })
         b = new Date().getTime();
-        console.log(`\x1b[32m...Complete: Git just clone !!! \x1b[34m- Timer: ${(a-b)/1000}s \n\x1b[0m`);
+        console.log(`\x1b[32m...Complete: Git just clone !!! \x1b[34m- Timer: ${(b-a)/1000}s \n\x1b[0m`);
 
         console.log('\x1b[33m...Please wait ! Dependencies Package is preparing to install. \x1b[0m')
         a = new Date().getTime();
         execSync(installCmd, { stdio: 'inherit' })
         b = new Date().getTime();
-        console.log(`\x1b[32m...Congratulation: Dependencies Package has been installed !!! \x1b[34m- Timer: ${(a-b)/1000}s \x1b[0m`)
+        console.log(`\x1b[32m...Congratulation: Dependencies Package has been installed !!! \x1b[34m- Timer: ${(b-a)/1000}s \x1b[0m`)
 
         if (title == "MERN-Stack" || title == "Fake API") {
             const url_localhost = 'http://localhost:8888'
